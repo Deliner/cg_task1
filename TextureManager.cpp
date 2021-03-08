@@ -29,6 +29,6 @@ TextureManager::TextureManager() {
     textures[Tiles::EMPTY]->loadFromFile("images/empty.png");
     textures[Tiles::DOOR]->loadFromFile("images/door.png");
     textures[Tiles::PLAYER]->loadFromFile("images/player.png");
-    textures[Tiles::DOOR_OPEN]->loadFromFile("images/grass.png");
-    textures[Tiles::FINISH]->loadFromFile("images/grass.png");
+    textures[Tiles::DOOR_OPEN]->loadFromFile("images/door_open.png");
+    textures[Tiles::FINISH]->loadFromFile("images/finish.png");
 }

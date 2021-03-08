@@ -112,6 +112,8 @@ void Level::onDoorEntry(std::pair<int, int> newPos, int levelId) {
         if (callback->getPlayerKeys() > 0) {
             callback->getPlayerKeys()--;
             (*map)[newPos.first][newPos.second] = DOOR_OPEN;
+        } else {
+            return;
         }
     }
     callback->loadLevel(levelId);

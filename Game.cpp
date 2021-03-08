@@ -9,7 +9,6 @@
 Game::Game() {
     window = new sf::RenderWindow(sf::VideoMode(800, 450), "cg_task1");
     window->setFramerateLimit(30);
-    window->setVerticalSyncEnabled(true);
 
     gameEnded = false;
     gameFinished = false;
@@ -35,13 +34,13 @@ void Game::updateInput() {
         } else if (event.type == sf::Event::KeyPressed) {
             if (!gameFinished && !gameEnded) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    world->makeMove(MoveDir::LEFT);
-                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
                     world->makeMove(MoveDir::UP);
+                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                    world->makeMove(MoveDir::LEFT);
                 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    world->makeMove(MoveDir::RIGHT);
-                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                     world->makeMove(MoveDir::DOWN);
+                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                    world->makeMove(MoveDir::RIGHT);
                 }
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
                 if (gameEnded) {
@@ -57,6 +56,10 @@ void Game::updateInput() {
 void Game::render() {
     window->clear();
     world->updateTiles();
+
+    auto size = window->getSize();
+    sf::FloatRect area(0, 0, size.x, size.y);
+    window->setView(sf::View(area));
 
     if (gameEnded) {
 

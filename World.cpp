@@ -10,16 +10,17 @@
 World::World(World::Callback *_callback) {
     callback = _callback;
     playerKeys = 0;
+    currentLevel = nullptr;
     loadLevels();
     setTiles();
 }
 
 void World::setTiles() {
     tiles = std::vector<std::vector<GameTile *>>(getLevelHeight());
-    for (int i = 0; i < getLevelWidth(); i++) {
+    for (int i = 0; i < getLevelHeight(); i++) {
         auto vector = std::vector<GameTile *>(getLevelWidth());
         for (int j = 0; j < getLevelWidth(); j++) {
-            vector[i] = new GameTile();
+            vector[j] = new GameTile();
         }
         tiles[i] = vector;
     }
@@ -54,11 +55,11 @@ void World::loadLevels() {
 }
 
 Level *World::getLevelFromLine(std::string line) {
-    int id = '0' - line[0];
-    int top = '0' - line[2];
-    int right = '0' - line[3];
-    int down = '0' - line[4];
-    int left = '0' - line[5];
+    int id = line[0] - '0';
+    int top = line[2] - '0';
+    int right = line[3] - '0';
+    int down = line[4] - '0';
+    int left = line[5] - '0';
     return new Level(this, id, top, right, down, left, getMapFromFile(id));
 }
 
@@ -66,6 +67,7 @@ std::vector<std::vector<char>> *World::getMapFromFile(int id) {
     auto *map = new std::vector<std::vector<char>>(getLevelHeight());
     std::ifstream mapFile("data/" + std::to_string(id));
     std::string line;
+    std::getline(mapFile, line); //to skip level size
     for (int i = 0; i < getLevelHeight(); i++) {
         auto horizontal = std::vector<char>(getLevelWidth());
         std::getline(mapFile, line);
@@ -82,14 +84,16 @@ int &World::getPlayerKeys() {
 }
 
 void World::updateTiles() {
-    auto map = currentLevel->map;
-    for (int i = 0; i < getLevelHeight(); i++) {
-        for (int j = 0; j < getLevelHeight(); j++) {
-            tiles[i][j]->setData(std::pair<int, int>(i, j), charToTexture((*map)[i][j]));
+    if (currentLevel != nullptr) {
+        auto map = currentLevel->map;
+        for (int i = 0; i < getLevelHeight(); i++) {
+            for (int j = 0; j < getLevelWidth(); j++) {
+                tiles[i][j]->setData(std::pair<int, int>(i, j), charToTexture((*map)[i][j]));
+            }
         }
+        auto position = currentLevel->playerPos;
+        tiles[position.first][position.second]->setData(position, TextureManager::getTexture(Tiles::PLAYER));
     }
-    auto position = currentLevel->playerPos;
-    tiles[position.first][position.second]->setData(position, TextureManager::getTexture(Tiles::PLAYER));
 }
 
 sf::Texture *World::charToTexture(char tile) {
@@ -125,6 +129,6 @@ void World::playerFinished() {
 }
 
 void World::loadLevel(int id) {
-    levels[id]->setPlayerFromLevel(currentLevel->id - 1);
+    levels[id - 1]->setPlayerFromLevel(currentLevel->id - 1);
     currentLevel = levels[id - 1];
 }

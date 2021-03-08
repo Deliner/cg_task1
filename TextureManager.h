@@ -13,8 +13,6 @@ class TextureManager {
 
 public:
 
-
-
     static void init();
 
     static sf::Texture *getTexture(Tiles);

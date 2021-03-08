@@ -1,2 +1,4 @@
 .idea*
 cmake-build-debug*
+*.o
+cg_task1
