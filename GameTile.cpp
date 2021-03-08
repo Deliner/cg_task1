@@ -19,3 +19,11 @@ bool GameTile::setUpSprite(std::string textureName) {
     sprite.setTextureRect(sf::IntRect(0, 0, 50, 50));
     return true;
 }
+
+void GameTile::setData(std::pair<int, int> pos, sf::Texture *texture) {
+    sprite.setTexture(*texture);
+    sprite.setTextureRect(sf::IntRect(0, 0, 50, 50));
+    sprite.setPosition(pos.first * 50, pos.second * 50);
+}
+
+GameTile::GameTile() = default;

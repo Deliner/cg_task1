@@ -14,12 +14,12 @@ void TextureManager::init() {
     }
 }
 
-sf::Texture *TextureManager::getTexture(TextureManager::Tiles type) {
+sf::Texture *TextureManager::getTexture(Tiles type) {
     return manager->textures[type];
 }
 
 TextureManager::TextureManager() {
-    for (auto & texture : textures) {
+    for (auto &texture : textures) {
         texture = new sf::Texture();
     }
 
@@ -29,4 +29,6 @@ TextureManager::TextureManager() {
     textures[Tiles::EMPTY]->loadFromFile("images/empty.png");
     textures[Tiles::DOOR]->loadFromFile("images/door.png");
     textures[Tiles::PLAYER]->loadFromFile("images/player.png");
+    textures[Tiles::DOOR_OPEN]->loadFromFile("images/grass.png");
+    textures[Tiles::FINISH]->loadFromFile("images/grass.png");
 }

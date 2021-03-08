@@ -7,14 +7,13 @@
 
 #include <vector>
 #include "SFML/Graphics.hpp"
+#include "Utils.h"
 
 class TextureManager {
 
 public:
 
-    enum Tiles {
-        WALL, KEY, GRASS, EMPTY, DOOR, PLAYER, DOOR_OPEN, COUNT
-    };
+
 
     static void init();
 

@@ -8,17 +8,15 @@
 
 #include <vector>
 #include "GameTile.h"
+#include "Level.h"
+#include "Utils.h"
 
-class World {
+class World : public Level::Callback {
 
 public:
     class Callback;
 
-    World(Callback *);
-
-    enum MoveDir {
-        UP, RIGHT, DOWN, LEFT
-    };
+    explicit World(World::Callback *);
 
     std::vector<std::vector<GameTile *>> tiles;
 
@@ -28,21 +26,39 @@ public:
 
     int getLevelWidth();
 
+    void updateTiles();
+
 private:
     Callback *callback;
 
-    int levelHeight;
-    int levelWidth;
-
     int playerKeys;
+
+    std::vector<Level *> levels;
+    Level *currentLevel;
 
     void loadLevels();
 
+    Level *getLevelFromLine(std::string);
+
+    std::vector<std::vector<char>> *getMapFromFile(int id);
+
+    int &getPlayerKeys() override;
+
+    void loadLevel(int) override;
+
+    void playerFinished() override;
+
+    void playerDied() override;
+
+    void setTiles();
+
+    sf::Texture *charToTexture(char tile);
 };
 
 class World::Callback {
 public:
     virtual void onDeath() = 0;
+
     virtual void onFinish() = 0;
 };
 
