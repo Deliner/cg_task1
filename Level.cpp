@@ -44,7 +44,7 @@ void Level::findDoorPositions() {
         for (int i = 0; i < 16; i++) {
             if ((*map)[0][i] == DOOR) {
                 topDoorPosition = std::pair<int, int>(0, i);
-                return;
+                break;
             }
         }
     }
@@ -53,7 +53,7 @@ void Level::findDoorPositions() {
             if ((*map)[8][i] == DOOR) {
                 downDoorPosition = std::pair<int, int>(8, i);
                 std::cout << downDoorPosition.first << downDoorPosition.second << std::endl;
-                return;
+                break;
             }
         }
     }
@@ -61,7 +61,7 @@ void Level::findDoorPositions() {
         for (int i = 0; i < 9; i++) {
             if ((*map)[i][15] == DOOR) {
                 rightDoorPosition = std::pair<int, int>(i, 15);
-                return;
+                break;
             }
         }
     }
@@ -69,7 +69,7 @@ void Level::findDoorPositions() {
         for (int i = 0; i < 9; i++) {
             if ((*map)[i][0] == DOOR) {
                 leftDoorPosition = std::pair<int, int>(i, 0);
-                return;
+                break;
             }
         }
     }
@@ -77,17 +77,21 @@ void Level::findDoorPositions() {
 
 void Level::makeMove(MoveDir dir) {
     if (dir == MoveDir::UP) {
-        onNewPos(std::pair<int, int>(playerPos.first -1, playerPos.second));
+        onNewPos(std::pair<int, int>(playerPos.first - 1, playerPos.second));
     } else if (dir == MoveDir::RIGHT) {
-        onNewPos(std::pair<int, int>(playerPos.first, playerPos.second+1));
+        onNewPos(std::pair<int, int>(playerPos.first, playerPos.second + 1));
     } else if (dir == MoveDir::DOWN) {
-        onNewPos(std::pair<int, int>(playerPos.first+1, playerPos.second ));
+        onNewPos(std::pair<int, int>(playerPos.first + 1, playerPos.second));
     } else if (dir == MoveDir::LEFT) {
-        onNewPos(std::pair<int, int>(playerPos.first, playerPos.second-1));
+        onNewPos(std::pair<int, int>(playerPos.first, playerPos.second - 1));
     }
 }
 
 void Level::onNewPos(std::pair<int, int> newPos) {
+    if (newPos.first < 0 || newPos.second < 0) {
+        return;
+    }
+
     if ((*map)[newPos.first][newPos.second] == GRASS) {
         playerPos = newPos;
     } else if ((*map)[newPos.first][newPos.second] == KEY) {
@@ -125,16 +129,16 @@ void Level::setPlayerFromLevel(int levelId) {
     std::pair<int, int> bufPos;
     if (levelId == topDoorLevel) {
         bufPos = topDoorPosition;
-        std::cout<<"top\n";
+        std::cout << "top\n";
     } else if (levelId == rightDoorLevel) {
         bufPos = rightDoorPosition;
-        std::cout<<"right\n";
+        std::cout << "right\n";
     } else if (levelId == downDoorLevel) {
         bufPos = downDoorPosition;
-        std::cout<<"down\n";
+        std::cout << "down\n";
     } else if (levelId == leftDoorLevel) {
         bufPos = leftDoorPosition;
-        std::cout<<"left\n";
+        std::cout << "left\n";
     }
     if ((*map)[bufPos.first][bufPos.second] == DOOR) {
         (*map)[bufPos.first][bufPos.second] = DOOR_OPEN;
