@@ -120,25 +120,18 @@ void Level::onDoorEntry(std::pair<int, int> newPos, int levelId) {
 }
 
 void Level::setPlayerFromLevel(int levelId) {
+    std::pair<int, int> bufPos;
     if (levelId == topDoorLevel) {
-        if ((*map)[topDoorPosition.first][topDoorPosition.second] == DOOR) {
-            (*map)[topDoorPosition.first][topDoorPosition.second] = DOOR_OPEN;
-        }
-        playerPos = topDoorPosition;
+        bufPos = topDoorPosition;
     } else if (levelId == rightDoorLevel) {
-        if ((*map)[rightDoorPosition.first][rightDoorPosition.second] == DOOR) {
-            (*map)[rightDoorPosition.first][rightDoorPosition.second] = DOOR_OPEN;
-        }
-        playerPos = rightDoorPosition;
+        bufPos = rightDoorPosition;
     } else if (levelId == downDoorLevel) {
-        if ((*map)[downDoorPosition.first][downDoorPosition.second] == DOOR) {
-            (*map)[downDoorPosition.first][downDoorPosition.second] = DOOR_OPEN;
-        }
-        playerPos = downDoorPosition;
+        bufPos = downDoorPosition;
     } else if (levelId == leftDoorLevel) {
-        if ((*map)[leftDoorPosition.first][leftDoorPosition.second] == DOOR) {
-            (*map)[leftDoorPosition.first][leftDoorPosition.second] = DOOR_OPEN;
-        }
-        playerPos = leftDoorPosition;
+        bufPos = leftDoorPosition;
     }
+    if ((*map)[bufPos.first][bufPos.second] == DOOR) {
+        (*map)[bufPos.first][bufPos.second] = DOOR_OPEN;
+    }
+    playerPos = bufPos;
 }

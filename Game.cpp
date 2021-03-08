@@ -12,8 +12,18 @@ Game::Game() {
 
     gameEnded = false;
     gameFinished = false;
+    pauseRender = false;
 
     world = new World(this);
+
+
+    winTexture = new sf::Texture();
+    winTexture->loadFromFile("images/win_screen.png");
+    winTexture->setSmooth(true);
+
+    deathTexture = new sf::Texture();
+    deathTexture->loadFromFile("images/death_screen.png");
+    deathTexture->setSmooth(true);
 
 }
 
@@ -22,7 +32,9 @@ void Game::start() {
     window->display();
     while (window->isOpen()) {
         updateInput();
-        render();
+        if (!pauseRender) {
+            render();
+        }
     }
 }
 
@@ -61,10 +73,12 @@ void Game::render() {
     sf::FloatRect area(0, 0, size.x, size.y);
     window->setView(sf::View(area));
 
-    if (gameEnded) {
-
-    } else if (gameFinished) {
-
+    if (gameEnded || gameFinished) {
+        auto sprite = sf::Sprite();
+        sprite.setTexture(gameEnded ? *deathTexture : *winTexture);
+        sprite.setTextureRect(sf::IntRect(0, 0, 800, 450));
+        window->draw(sprite);
+        pauseRender = true;
     } else {
         for (int i = 0; i < world->getLevelHeight(); i++) {
             for (int j = 0; j < world->getLevelWidth(); j++) {
@@ -78,7 +92,9 @@ void Game::render() {
 void Game::reset() {
     gameEnded = false;
     gameFinished = false;
+    pauseRender = false;
 
+    delete world;
     world = new World(this);
 }
 

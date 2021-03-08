@@ -22,6 +22,10 @@ private:
 
     bool gameEnded;
     bool gameFinished;
+    bool pauseRender;
+
+    sf::Texture *winTexture;
+    sf::Texture *deathTexture;
 
     void updateInput();
 
