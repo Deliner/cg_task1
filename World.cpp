@@ -129,6 +129,6 @@ void World::playerFinished() {
 }
 
 void World::loadLevel(int id) {
-    levels[id - 1]->setPlayerFromLevel(currentLevel->id - 1);
+    levels[id - 1]->setPlayerFromLevel(currentLevel->id);
     currentLevel = levels[id - 1];
 }

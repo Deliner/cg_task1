@@ -46,13 +46,13 @@ void Game::updateInput() {
         } else if (event.type == sf::Event::KeyPressed) {
             if (!gameFinished && !gameEnded) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    world->makeMove(MoveDir::UP);
-                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
                     world->makeMove(MoveDir::LEFT);
+                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                    world->makeMove(MoveDir::UP);
                 } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    world->makeMove(MoveDir::DOWN);
-                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                     world->makeMove(MoveDir::RIGHT);
+                } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                    world->makeMove(MoveDir::DOWN);
                 }
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
                 if (gameEnded) {
@@ -94,7 +94,6 @@ void Game::reset() {
     gameFinished = false;
     pauseRender = false;
 
-    delete world;
     world = new World(this);
 }
 
