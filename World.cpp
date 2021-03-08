@@ -4,8 +4,10 @@
 
 #include <fstream>
 #include <string>
+#include <regex>
 #include "World.h"
 #include "TextureManager.h"
+
 
 World::World(World::Callback *_callback) {
     callback = _callback;
@@ -55,11 +57,16 @@ void World::loadLevels() {
 }
 
 Level *World::getLevelFromLine(std::string line) {
-    int id = line[0] - '0';
-    int top = line[2] - '0';
-    int right = line[3] - '0';
-    int down = line[4] - '0';
-    int left = line[5] - '0';
+    int id = std::stoi(line.substr(0, line.find_first_of(' ')));
+    line = line.substr(line.find_first_of(' ') + 1);
+    int top = std::stoi(line.substr(0, line.find_first_of(' ')));
+    line = line.substr(line.find_first_of(' ') + 1);
+    int right = std::stoi(line.substr(0, line.find_first_of(' ')));
+    line = line.substr(line.find_first_of(' ') + 1);
+    int down = std::stoi(line.substr(0, line.find_first_of(' ')));
+    line = line.substr(line.find_first_of(' ') + 1);
+    int left = std::stoi(line);
+
     return new Level(this, id, top, right, down, left, getMapFromFile(id));
 }
 

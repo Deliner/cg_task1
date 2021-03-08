@@ -52,7 +52,6 @@ void Level::findDoorPositions() {
         for (int i = 0; i < 16; i++) {
             if ((*map)[8][i] == DOOR) {
                 downDoorPosition = std::pair<int, int>(8, i);
-                std::cout << downDoorPosition.first << downDoorPosition.second << std::endl;
                 break;
             }
         }
@@ -129,16 +128,12 @@ void Level::setPlayerFromLevel(int levelId) {
     std::pair<int, int> bufPos;
     if (levelId == topDoorLevel) {
         bufPos = topDoorPosition;
-        std::cout << "top\n";
     } else if (levelId == rightDoorLevel) {
         bufPos = rightDoorPosition;
-        std::cout << "right\n";
     } else if (levelId == downDoorLevel) {
         bufPos = downDoorPosition;
-        std::cout << "down\n";
     } else if (levelId == leftDoorLevel) {
         bufPos = leftDoorPosition;
-        std::cout << "left\n";
     }
     if ((*map)[bufPos.first][bufPos.second] == DOOR) {
         (*map)[bufPos.first][bufPos.second] = DOOR_OPEN;
